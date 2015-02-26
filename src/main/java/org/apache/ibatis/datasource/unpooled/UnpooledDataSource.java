@@ -32,6 +32,9 @@ import javax.sql.DataSource;
 import org.apache.ibatis.io.Resources;
 
 /**
+ * 实现DataSource，方便连接不同的数据库
+ *
+ *
  * @author Clinton Begin
  * @author Eduardo Macarron
  */

@@ -76,7 +76,9 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   private XMLConfigBuilder(XPathParser parser, String environment, Properties props) {
+      // 构造父类
     super(new Configuration());
+      //初始化错误上下文
     ErrorContext.instance().resource("SQL Mapper Configuration");
     this.configuration.setVariables(props);
     this.parsed = false;
@@ -96,8 +98,8 @@ public class XMLConfigBuilder extends BaseBuilder {
   private void parseConfiguration(XNode root) {
     try {
       //issue #117 read properties first
-      propertiesElement(root.evalNode("properties"));
-      typeAliasesElement(root.evalNode("typeAliases"));
+      propertiesElement(root.evalNode("properties")); // 解析properties
+      typeAliasesElement(root.evalNode("typeAliases"));// 解析typeAliases
       pluginElement(root.evalNode("plugins"));
       objectFactoryElement(root.evalNode("objectFactory"));
       objectWrapperFactoryElement(root.evalNode("objectWrapperFactory"));
@@ -230,8 +232,11 @@ public class XMLConfigBuilder extends BaseBuilder {
       for (XNode child : context.getChildren()) {
         String id = child.getStringAttribute("id");
         if (isSpecifiedEnvironment(id)) {
+
+            // 创建事务管理
           TransactionFactory txFactory = transactionManagerElement(child.evalNode("transactionManager"));
-          DataSourceFactory dsFactory = dataSourceElement(child.evalNode("dataSource"));
+            // 创建数据库连接
+            DataSourceFactory dsFactory = dataSourceElement(child.evalNode("dataSource"));
           DataSource dataSource = dsFactory.getDataSource();
           Environment.Builder environmentBuilder = new Environment.Builder(id)
               .transactionFactory(txFactory)
@@ -241,6 +246,8 @@ public class XMLConfigBuilder extends BaseBuilder {
       }
     }
   }
+
+
 
   private void databaseIdProviderElement(XNode context) throws Exception {
     DatabaseIdProvider databaseIdProvider = null;
@@ -274,7 +281,7 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   private DataSourceFactory dataSourceElement(XNode context) throws Exception {
     if (context != null) {
-      String type = context.getStringAttribute("type");
+      String type = context.getStringAttribute("type");// 获取type POOLED UNPOOLED JNDI
       Properties props = context.getChildrenAsProperties();
       DataSourceFactory factory = (DataSourceFactory) resolveClass(type).newInstance();
       factory.setProperties(props);

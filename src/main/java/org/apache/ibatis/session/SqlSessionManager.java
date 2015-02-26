@@ -29,6 +29,8 @@ import org.apache.ibatis.executor.BatchResult;
 import org.apache.ibatis.reflection.ExceptionUtil;
 
 /**
+ * 改进适配多数据源
+ *
  * @author Larry Meadors
  */
 public class SqlSessionManager implements SqlSessionFactory, SqlSession {
@@ -40,6 +42,7 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
 
   private SqlSessionManager(SqlSessionFactory sqlSessionFactory) {
     this.sqlSessionFactory = sqlSessionFactory;
+      //动态代理使用SqlSession接口，处理用SqlSessionInterceptor
     this.sqlSessionProxy = (SqlSession) Proxy.newProxyInstance(
         SqlSessionFactory.class.getClassLoader(),
         new Class[]{SqlSession.class},
@@ -329,6 +332,7 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
       final SqlSession sqlSession = SqlSessionManager.this.localSqlSession.get();
+        // 判断SqlSession是否打开，已经打开直接使用，否则打开（会自动提交事务）
       if (sqlSession != null) {
         try {
           return method.invoke(sqlSession, args);

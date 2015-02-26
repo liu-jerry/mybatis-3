@@ -37,7 +37,16 @@
   </description>
   <url>http://www.mybatis.org/core/</url>
 
-  <contributors>
+
+    <!--修正不能下载parent的错误-->
+    <repositories>
+        <repository>
+            <id>snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
+
+    <contributors>
     <contributor>
       <name>Adam Gent</name>
       <email>adam.gent@evocatus.com</email>

@@ -19,6 +19,9 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 /**
+ * DataSourceFactory 接口
+ *
+ * 主要由三种实现，jndi，pooled（连接池），unpooled（常规连接）
  * @author Clinton Begin
  */
 public interface DataSourceFactory {

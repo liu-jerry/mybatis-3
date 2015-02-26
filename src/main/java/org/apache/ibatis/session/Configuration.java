@@ -88,6 +88,8 @@ import org.apache.ibatis.type.TypeAliasRegistry;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
+ * Mybatis运行数据
+ *
  * @author Clinton Begin
  */
 public class Configuration {
